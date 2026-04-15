@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Zekiel Apparel</title>
+  <meta name="description" content="Get in touch with Zekiel Apparel. Book a consultation, ask a question, or visit our atelier in Lagos." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="scrolled">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="images/logo.png" alt="Zekiel Apparel" class="logo-img" />
+        <div class="logo-text-fallback">
+          <span class="logo-script">Zekiel</span>
+          <span class="logo-sub">APPAREL</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="services.html" class="nav-link">Services</a></li>
+        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+        <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+      <a href="contact.html" class="nav-cta">Book a Session</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="mobileClose"><i class="fa fa-times"></i></button>
+    <ul>
+      <li><a href="index.html" class="mobile-link">Home</a></li>
+      <li><a href="about.html" class="mobile-link">About</a></li>
+      <li><a href="services.html" class="mobile-link">Services</a></li>
+      <li><a href="gallery.html" class="mobile-link">Gallery</a></li>
+      <li><a href="testimonials.html" class="mobile-link">Testimonials</a></li>
+      <li><a href="contact.html" class="mobile-link">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="mobile-cta">Book a Session</a>
+  </div>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- PAGE BANNER -->
+  <section class="page-banner">
+    <div class="page-banner-content">
+      <p class="page-banner-eyebrow">Get In Touch</p>
+      <h1>Contact <em>Us</em></h1>
+      <p>We'd love to hear from you. Reach out to book a consultation or simply say hello.</p>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <i class="fa fa-chevron-right"></i>
+        <span>Contact</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact section-pad">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Info -->
+        <div class="contact-info">
+          <p class="section-eyebrow">Reach Out</p>
+          <h2 class="section-title" style="font-size: 2rem; margin-bottom: 32px;">We're Here<br/><em>For You</em></h2>
+
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa fa-map-marker-alt"></i></div>
+            <div>
+              <h4>Visit Our Atelier</h4>
+              <p>123 Fashion Avenue, Victoria Island,<br/>Lagos, Nigeria</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa fa-phone"></i></div>
+            <div>
+              <h4>Call Us</h4>
+              <p>+234 800 000 0000</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa fa-envelope"></i></div>
+            <div>
+              <h4>Email Us</h4>
+              <p>hello@zekielapparel.com</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa fa-clock"></i></div>
+            <div>
+              <h4>Working Hours</h4>
+              <p>Monday – Friday: 9am – 6pm<br/>Saturday: 10am – 4pm</p>
+            </div>
+          </div>
+          <div class="contact-socials">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <form class="contact-form" id="contactForm" novalidate>
+          <div style="margin-bottom: 28px;">
+            <p class="section-eyebrow">Send a Message</p>
+            <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--dark); font-weight: 600;">Book a Consultation</h3>
+            <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 6px;">Fill out the form and we'll get back to you within 24 hours.</p>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+234 800 000 0000" />
+            </div>
+            <div class="form-group">
+              <label for="service">Service Interested In *</label>
+              <select id="service" name="service" required>
+                <option value="" disabled selected>Select a service</option>
+                <option value="custom-design">Custom Design</option>
+                <option value="bespoke-tailoring">Bespoke Tailoring</option>
+                <option value="alterations">Alterations & Repairs</option>
+                <option value="bridal">Bridal & Occasion Wear</option>
+                <option value="corporate">Corporate & Uniform</option>
+                <option value="consulting">Fashion Consulting</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="budget">Budget Range</label>
+              <select id="budget" name="budget">
+                <option value="" disabled selected>Select a range</option>
+                <option value="under-50k">Under ₦50,000</option>
+                <option value="50k-150k">₦50,000 – ₦150,000</option>
+                <option value="150k-300k">₦150,000 – ₦300,000</option>
+                <option value="300k-plus">₦300,000+</option>
+                <option value="discuss">Prefer to discuss</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="timeline">Desired Timeline</label>
+              <select id="timeline" name="timeline">
+                <option value="" disabled selected>Select timeline</option>
+                <option value="asap">As soon as possible</option>
+                <option value="2weeks">Within 2 weeks</option>
+                <option value="1month">Within 1 month</option>
+                <option value="1-3months">1–3 months</option>
+                <option value="flexible">Flexible</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label for="message">Tell Us About Your Vision *</label>
+            <textarea id="message" name="message" rows="5" placeholder="Describe your project, occasion, style preferences, inspiration images you have in mind..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Send Message <i class="fa fa-paper-plane"></i></button>
+          <div class="form-success" id="formSuccess">
+            <i class="fa fa-check-circle"></i> Thank you! We'll be in touch within 24 hours.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP PLACEHOLDER -->
+  <section class="section-pad bg-light" style="padding: 0;">
+    <div style="width: 100%; height: 360px; background: linear-gradient(135deg, var(--teal-dark), var(--teal-mid)); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; color: white; text-align: center; position: relative; overflow: hidden;">
+      <div style="position: absolute; inset: 0; background: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23c9a84c\' fill-opacity=\'0.04\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/svg%3E'); opacity: 0.4;"></div>
+      <i class="fa fa-map-marker-alt" style="font-size: 2.5rem; color: var(--gold); position: relative; z-index: 1;"></i>
+      <div style="position: relative; z-index: 1;">
+        <p style="font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600; margin-bottom: 4px;">123 Fashion Avenue, Victoria Island</p>
+        <p style="font-size: 0.9rem; opacity: 0.7;">Lagos, Nigeria &nbsp;|&nbsp; Mon–Fri: 9am–6pm &nbsp;|&nbsp; Sat: 10am–4pm</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <span class="footer-script">Zekiel</span>
+            <span class="footer-sub">APPAREL</span>
+          </div>
+          <p>Where fashion meets artistry. Crafting bespoke pieces that celebrate your individuality and tell your unique story.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="services.html">Custom Design</a></li>
+            <li><a href="services.html">Bespoke Tailoring</a></li>
+            <li><a href="services.html">Alterations & Repairs</a></li>
+            <li><a href="services.html">Bridal Collections</a></li>
+            <li><a href="services.html">Corporate Wear</a></li>
+            <li><a href="services.html">Fashion Consulting</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Info</h4>
+          <ul class="footer-contact">
+            <li><i class="fa fa-map-marker-alt"></i> 123 Fashion Avenue, Lagos</li>
+            <li><i class="fa fa-phone"></i> +234 800 000 0000</li>
+            <li><i class="fa fa-envelope"></i> hello@zekielapparel.com</li>
+            <li><i class="fa fa-clock"></i> Mon – Sat: 9am – 6pm</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Zekiel Apparel. All rights reserved.</p>
+        <p>Designed with <i class="fa fa-heart" style="color: var(--gold)"></i> for fashion lovers</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="backToTop" class="back-to-top" aria-label="Back to top"><i class="fa fa-chevron-up"></i></button>
+  <script src="js/script.js"></script>
+</body>
+</html>
