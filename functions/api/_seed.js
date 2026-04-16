@@ -1,3 +1,5 @@
+// Seeded on first run when the KV namespace is empty.
+export default
 {
   "settings": {
     "brandName": "Zekiel Apparel",
@@ -92,3 +94,4 @@
     { "question": "How do I get started?", "answer": "Simply fill out the contact form on our Contact page or call us directly. We'll schedule a free initial consultation — in-person or virtual — to discuss your needs." }
   ]
 }
+;

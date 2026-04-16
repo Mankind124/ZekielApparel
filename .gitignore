@@ -6,10 +6,9 @@ node_modules/
 .env
 *.log
 
-# Server runtime data (not shipped in repo)
-server/data/content.json
-server/data/users.json
-server/uploads/
+# Cloudflare / Wrangler
+.wrangler/
+.dev.vars
 
 # OS files
 .DS_Store
