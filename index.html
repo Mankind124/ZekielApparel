@@ -320,31 +320,8 @@
   </footer>
 
   <button id="backToTop" class="back-to-top" aria-label="Back to top"><i class="fa fa-chevron-up"></i></button>
+  <script src="js/api-config.js"></script>
   <script src="js/script.js"></script>
-  <script>
-    /* ---- Home Gallery Preview (first 6 items) ---- */
-    const homePlaceholders = ['g1','g2','g3','g4','g5','g6'];
-    const homeLayouts      = ['','large','','','','large'];
-    fetch('/data/gallery.json')
-      .then(r => r.json())
-      .then(data => {
-        const grid  = document.getElementById('homeGalleryGrid');
-        const items = (data.items || []).slice(0, 6);
-        if (!items.length) { grid.innerHTML = ''; return; }
-        grid.innerHTML = items.map((item, i) => {
-          const hasImg = item.image && item.image.trim() !== '';
-          const cls    = homePlaceholders[i];
-          const layout = homeLayouts[i];
-          return `
-            <div class="gallery-item ${layout}" data-category="${item.category}">
-              <div class="gallery-placeholder ${hasImg ? 'has-img' : cls}">
-                ${hasImg ? `<img src="${item.image}" alt="${item.title}" loading="lazy" />` : ''}
-                <div class="gallery-overlay"><span>${item.title}</span><i class="fa fa-search-plus"></i></div>
-              </div>
-            </div>`;
-        }).join('');
-      })
-      .catch(() => { document.getElementById('homeGalleryGrid').innerHTML = ''; });
-  </script>
+  <script src="js/content-loader.js"></script>
 </body>
 </html>

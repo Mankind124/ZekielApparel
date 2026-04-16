@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zekiel Apparel — Admin</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== LOGIN SCREEN ===== -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="login-script">Zekiel</span>
+        <span class="login-sub">APPAREL · ADMIN</span>
+      </div>
+      <h2>Sign in to manage your site</h2>
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required placeholder="you@example.com" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" id="loginBtn">
+          Sign In <i class="fa fa-arrow-right"></i>
+        </button>
+        <p class="login-error" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== MAIN ADMIN APP ===== -->
+  <div id="adminApp" class="admin-app" hidden>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-script">Zekiel</span>
+        <span class="brand-sub">APPAREL</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="dashboard"><i class="fa fa-gauge-high"></i> Dashboard</button>
+        <button class="nav-item" data-tab="settings"><i class="fa fa-cog"></i> Business Info</button>
+        <button class="nav-item" data-tab="hero"><i class="fa fa-star"></i> Hero / Home</button>
+        <button class="nav-item" data-tab="about"><i class="fa fa-book-open"></i> About & Story</button>
+        <button class="nav-item" data-tab="values"><i class="fa fa-gem"></i> Core Values</button>
+        <button class="nav-item" data-tab="team"><i class="fa fa-users"></i> Team</button>
+        <button class="nav-item" data-tab="services"><i class="fa fa-scissors"></i> Services & Prices</button>
+        <button class="nav-item" data-tab="gallery"><i class="fa fa-images"></i> Gallery</button>
+        <button class="nav-item" data-tab="testimonials"><i class="fa fa-comment-dots"></i> Testimonials</button>
+        <button class="nav-item" data-tab="discounts"><i class="fa fa-tag"></i> Discounts</button>
+        <button class="nav-item" data-tab="faq"><i class="fa fa-circle-question"></i> FAQ</button>
+        <button class="nav-item" data-tab="account"><i class="fa fa-user-shield"></i> Account</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="nav-item logout" id="logoutBtn"><i class="fa fa-right-from-bracket"></i> Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fa fa-bars"></i></button>
+        <h1 id="pageTitle">Dashboard</h1>
+        <div class="topbar-actions">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Loading…</span>
+          <button class="btn btn-primary btn-sm" id="saveAllBtn" hidden>
+            <i class="fa fa-floppy-disk"></i> Save All Changes
+          </button>
+        </div>
+      </header>
+
+      <div class="content" id="content">
+        <!-- Panels injected by admin.js -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Image picker modal -->
+  <div class="modal" id="imageModal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Select or upload an image</h3>
+        <button class="modal-close" id="closeImageModal"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="upload-zone" id="uploadZone">
+        <i class="fa fa-cloud-arrow-up"></i>
+        <p>Click to upload or drag & drop</p>
+        <small>PNG, JPG, WEBP — up to 10 MB</small>
+        <input type="file" id="fileInput" accept="image/*" hidden />
+      </div>
+      <div class="existing-label">Or choose an existing image:</div>
+      <div class="image-grid" id="imageGrid"></div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

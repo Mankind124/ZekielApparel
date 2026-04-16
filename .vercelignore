@@ -1,0 +1,5 @@
+server/
+render.yaml
+DEPLOY.md
+*.log
+.env

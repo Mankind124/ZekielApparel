@@ -1,0 +1,94 @@
+{
+  "settings": {
+    "brandName": "Zekiel Apparel",
+    "tagline": "Where Fashion Meets Artistry",
+    "address": "No 3, Olokuta adjacent Train Station, Abeokuta, Ogun State",
+    "phone1": "+234 810 435 5199",
+    "phone2": "+234 907 231 4274",
+    "email": "zekielapparel@gmail.com",
+    "weekdayHours": "Monday – Friday: 8am – 6pm",
+    "saturdayHours": "Saturday: 9am – 6pm",
+    "instagram": "",
+    "facebook": "",
+    "tiktok": "",
+    "pinterest": "",
+    "whatsapp": "+2348104355199",
+    "bankName": "",
+    "accountName": "Zekiel Apparel",
+    "accountNumber": ""
+  },
+  "hero": {
+    "eyebrow": "Welcome to",
+    "tagline": "Where Fashion Meets Artistry",
+    "description": "Bespoke fashion design crafted with precision, passion, and purpose. Every stitch tells your story.",
+    "ctaPrimaryText": "View Our Work",
+    "ctaPrimaryLink": "gallery.html",
+    "ctaSecondaryText": "Book a Consultation",
+    "ctaSecondaryLink": "contact.html"
+  },
+  "about": {
+    "eyebrow": "Our Story",
+    "title": "Crafting Elegance, One Thread at a Time",
+    "paragraphs": [
+      "Zekiel Apparel was born from a deep love of fashion and a commitment to celebrating individuality. We believe that clothing is more than fabric — it is an expression of identity, confidence, and culture.",
+      "Founded over a decade ago, our atelier has grown from a small tailoring studio into a full-service fashion house trusted by hundreds of clients across Nigeria and beyond.",
+      "Whether you come to us with a clear vision or need guidance to find your style, we partner with you every step of the way."
+    ],
+    "yearsExperience": "10+",
+    "happyClients": "500+",
+    "piecesCreated": "1200+",
+    "bespokePercent": "100%"
+  },
+  "values": [
+    { "icon": "fa-gem", "title": "Quality First", "description": "We never compromise on the quality of materials or craftsmanship. Every piece must meet our exacting standards." },
+    { "icon": "fa-fingerprint", "title": "Individuality", "description": "No two clients are the same, and neither are our designs. We celebrate what makes you unique." },
+    { "icon": "fa-handshake", "title": "Integrity", "description": "Transparent, honest, and reliable. From pricing to timelines, we keep our word and build lasting relationships." },
+    { "icon": "fa-lightbulb", "title": "Innovation", "description": "We blend traditional tailoring techniques with modern design trends, pushing creative boundaries." }
+  ],
+  "team": [
+    { "name": "Johnson Bidemi Makinde", "role": "Founder", "bio": "With a passion for fashion and a vision for elegance, Johnson founded Zekiel Apparel to celebrate individuality through bespoke design and expert craftsmanship.", "photo": "" },
+    { "name": "Sunday Samson Oretuyi", "role": "Pattern Maker & Head Tailor", "bio": "Sunday's mastery of pattern-making and construction is the backbone of our quality. His eye for detail ensures every garment fits like a second skin.", "photo": "" },
+    { "name": "Mr Elijah", "role": "Style Consultant & Client Relations", "bio": "Mr Elijah guides clients through their style journey with warmth and expertise, turning visions into wearable reality.", "photo": "" }
+  ],
+  "services": [
+    { "icon": "fa-cut", "title": "Custom Design", "description": "Work one-on-one with our designers to create a truly original piece that reflects your personality.", "price": "From ₦50,000", "featured": true },
+    { "icon": "fa-ruler", "title": "Bespoke Tailoring", "description": "Precision-cut garments built to your exact measurements using the finest fabrics.", "price": "From ₦35,000", "featured": true },
+    { "icon": "fa-magic", "title": "Alterations & Repairs", "description": "Give your favourite pieces a second life with expert alterations, resizing, and restoration.", "price": "From ₦5,000", "featured": false },
+    { "icon": "fa-heart", "title": "Bridal & Occasion Wear", "description": "Bespoke bridal gowns, bridesmaids' dresses, and ceremony outfits for your most important days.", "price": "From ₦150,000", "featured": true },
+    { "icon": "fa-briefcase", "title": "Corporate & Uniform", "description": "Professional corporate attire, branded uniforms, and team event outfits.", "price": "Contact for quote", "featured": false },
+    { "icon": "fa-star", "title": "Fashion Consulting", "description": "Personal wardrobe audits, shopping guidance, and style planning sessions.", "price": "From ₦25,000", "featured": false }
+  ],
+  "gallery": [
+    { "title": "Bridal Gown 2024", "category": "bridal", "image": "", "description": "Bespoke bridal collection" },
+    { "title": "Evening Gown", "category": "occasion", "image": "", "description": "Elegant occasion wear" },
+    { "title": "Executive Suit", "category": "corporate", "image": "", "description": "Sharp corporate tailoring" },
+    { "title": "Summer Collection", "category": "casual", "image": "", "description": "Casual chic collection" },
+    { "title": "Traditional Ceremony", "category": "traditional", "image": "", "description": "Beautiful aso-ebi set" },
+    { "title": "Bridesmaid Collection", "category": "bridal", "image": "", "description": "Coordinated bridal party" },
+    { "title": "Gala Night Outfit", "category": "occasion", "image": "", "description": "Showstopping occasion wear" },
+    { "title": "Corporate Set", "category": "corporate", "image": "", "description": "Professional corporate attire" },
+    { "title": "Casual Chic", "category": "casual", "image": "", "description": "Everyday fashion" },
+    { "title": "Aso-Ebi Look", "category": "traditional", "image": "", "description": "Vibrant traditional wear" },
+    { "title": "Bridal Party", "category": "bridal", "image": "", "description": "Complete wedding party" },
+    { "title": "Weekend Wear", "category": "casual", "image": "", "description": "Stylish weekend collection" }
+  ],
+  "testimonials": [
+    { "name": "Amara Okonkwo", "role": "Bride — Lagos", "text": "Zekiel Apparel brought my wedding vision to life beyond my wildest dreams. The attention to detail and craftsmanship was absolutely breathtaking. I felt like royalty on my special day!", "rating": 5 },
+    { "name": "David Mensah", "role": "Business Executive — Accra", "text": "I needed a custom suit for a very important corporate event. The team delivered something that was not only perfect in fit but also made a powerful statement. I got compliments all night!", "rating": 5 },
+    { "name": "Fatima Al-Hassan", "role": "Fashion Enthusiast — Abuja", "text": "The styling consultation alone was worth every penny. They completely transformed my wardrobe and gave me the confidence to express myself through fashion. I'm a client for life!", "rating": 5 },
+    { "name": "Chisom Eze", "role": "Graduate — Enugu", "text": "From the first consultation to the final fitting, Zekiel Apparel made the entire process enjoyable and stress-free. My graduation outfit was absolutely stunning and uniquely mine!", "rating": 5 },
+    { "name": "Tola Adewale", "role": "Bride — Ibadan", "text": "They made the most gorgeous aso-ebi outfits for my entire bridal party. Every single person looked amazing and consistent — the colour, the fit, the finishing. Exceptional!", "rating": 5 },
+    { "name": "Kelechi Nwachukwu", "role": "HR Director", "text": "We ordered corporate uniforms for our entire team of 50. The professionalism, quality, and turnaround time were all outstanding. Our team has never looked so sharp.", "rating": 5 }
+  ],
+  "discounts": [
+    { "title": "New Client Special", "description": "Enjoy 15% off your first bespoke order with us.", "code": "NEWCLIENT15", "percent": 15, "active": true, "expiresAt": "" },
+    { "title": "Bridal Party Package", "description": "Book a bridal party of 6 or more and get 20% off the total.", "code": "BRIDE20", "percent": 20, "active": true, "expiresAt": "" }
+  ],
+  "faq": [
+    { "question": "How long does a custom piece take to make?", "answer": "Timelines vary by project complexity. Simple pieces may take 1–2 weeks, while elaborate designs like bridal gowns can take 4–8 weeks. We always confirm estimated timelines during your consultation." },
+    { "question": "Do you work with fabrics I provide?", "answer": "Yes! You're welcome to bring your own fabric. We'll assess its suitability and provide guidance on how best to work with it. We also stock a wide range of premium fabrics in our studio." },
+    { "question": "How many fittings are included?", "answer": "Most projects include 2–3 fitting sessions. We never finalise a garment until we're both happy with the fit. Additional fittings can be arranged as needed at no extra charge for major items." },
+    { "question": "What areas do you serve?", "answer": "Our studio is based in Abeokuta, Ogun State. We welcome clients nationally and can arrange virtual consultations and courier delivery for clients outside Ogun State." },
+    { "question": "How do I get started?", "answer": "Simply fill out the contact form on our Contact page or call us directly. We'll schedule a free initial consultation — in-person or virtual — to discuss your needs." }
+  ]
+}

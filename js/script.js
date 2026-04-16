@@ -141,17 +141,22 @@ filterBtns.forEach(btn => {
   });
 });
 
-/* ---- Testimonials Slider (home preview) ---- */
-const track = document.getElementById('testimonialsTrack');
-if (track) {
-  const cards   = track.querySelectorAll('.testimonial-card');
+/* ---- Testimonials Slider — exposed for content-loader to re-init ---- */
+let testimonialsAutoplay;
+function initTestimonialsSlider() {
+  const track = document.getElementById('testimonialsTrack');
+  if (!track) return;
+  const cards    = track.querySelectorAll('.testimonial-card');
   const dotsWrap = document.getElementById('sliderDots');
   const prevBtn  = document.getElementById('prevBtn');
   const nextBtn  = document.getElementById('nextBtn');
-  let current = 0;
-  let autoplay;
-  const total = cards.length;
+  const total    = cards.length;
+  if (!total) return;
   const maxIndex = total - 1;
+  let current = 0;
+
+  clearInterval(testimonialsAutoplay);
+  cards.forEach(c => { c.style.minWidth = '100%'; c.style.boxSizing = 'border-box'; });
 
   function createDots() {
     if (!dotsWrap) return;
@@ -159,41 +164,35 @@ if (track) {
     for (let i = 0; i < total; i++) {
       const dot = document.createElement('button');
       dot.className = 'slider-dot' + (i === current ? ' active' : '');
-      dot.setAttribute('aria-label', `Slide ${i + 1}`);
+      dot.setAttribute('aria-label', 'Slide ' + (i + 1));
       dot.addEventListener('click', () => { goTo(i); resetAutoplay(); });
       dotsWrap.appendChild(dot);
     }
   }
-  function updateDots() {
-    document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === current));
-  }
+  function updateDots() { document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === current)); }
   function goTo(idx) {
     current = Math.max(0, Math.min(idx, maxIndex));
-    track.style.transform = `translateX(-${current * 100}%)`;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
     updateDots();
   }
-  function startAutoplay() {
-    autoplay = setInterval(() => goTo(current >= maxIndex ? 0 : current + 1), 5000);
-  }
-  function resetAutoplay() { clearInterval(autoplay); startAutoplay(); }
+  function startAutoplay() { testimonialsAutoplay = setInterval(() => goTo(current >= maxIndex ? 0 : current + 1), 5000); }
+  function resetAutoplay() { clearInterval(testimonialsAutoplay); startAutoplay(); }
 
-  if (prevBtn) prevBtn.addEventListener('click', () => { goTo(current <= 0 ? maxIndex : current - 1); resetAutoplay(); });
-  if (nextBtn) nextBtn.addEventListener('click', () => { goTo(current >= maxIndex ? 0 : current + 1); resetAutoplay(); });
+  if (prevBtn) prevBtn.onclick = () => { goTo(current <= 0 ? maxIndex : current - 1); resetAutoplay(); };
+  if (nextBtn) nextBtn.onclick = () => { goTo(current >= maxIndex ? 0 : current + 1); resetAutoplay(); };
 
-  // Ensure each card takes 100% width
-  cards.forEach(c => { c.style.minWidth = '100%'; c.style.boxSizing = 'border-box'; });
+  let tsX = 0;
+  track.ontouchstart = e => { tsX = e.changedTouches[0].screenX; };
+  track.ontouchend = e => {
+    const diff = tsX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 40) { goTo(diff > 0 ? (current >= maxIndex ? 0 : current + 1) : (current <= 0 ? maxIndex : current - 1)); resetAutoplay(); }
+  };
 
   createDots();
   startAutoplay();
-
-  // Touch swipe
-  let tsX = 0;
-  track.addEventListener('touchstart', e => { tsX = e.changedTouches[0].screenX; }, { passive: true });
-  track.addEventListener('touchend', e => {
-    const diff = tsX - e.changedTouches[0].screenX;
-    if (Math.abs(diff) > 40) { goTo(diff > 0 ? (current >= maxIndex ? 0 : current + 1) : (current <= 0 ? maxIndex : current - 1)); resetAutoplay(); }
-  });
 }
+window.initTestimonialsSlider = initTestimonialsSlider;
+initTestimonialsSlider();
 
 /* ---- FAQ Accordion ---- */
 document.querySelectorAll('.faq-question').forEach(btn => {
