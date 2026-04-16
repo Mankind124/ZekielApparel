@@ -1,162 +1,133 @@
-# Zekiel Apparel — Cloudflare Deploy Guide
+# Zekiel Apparel — Cloudflare Workers Deploy Guide
 
-Your site runs entirely on Cloudflare's free tier:
+The site runs as a single Cloudflare Worker with Static Assets:
 
-| Piece | Cloudflare service |
+| Piece | Where it lives |
 |---|---|
-| Public website | **Pages** |
-| Admin panel | **Pages** (served from `/admin`) |
-| API backend | **Pages Functions** (in `/functions`) |
-| Admin login + content data | **KV** (key-value store) |
-| Uploaded images | **R2** (object storage) |
+| Public website + admin SPA | `/public` folder, served by the Worker's built-in asset pipeline |
+| API backend (auth, content) | `src/index.js` (Hono app) |
+| Uploaded images | **R2** bucket `zekiel-apparel-uploads` |
+| Content + admin credentials | **KV** namespace `zekiel-content` |
 
-Everything lives on one domain — one deploy, zero CORS, zero cold starts, free forever.
+One project, one deploy, one URL. Free tier is generous: 100,000 requests/day and zero egress fees on R2.
 
 ---
 
-## Part 1 — Create the Cloudflare resources (5 min)
+## Part 1 — Create the storage resources (3 min)
 
-### 1. Sign up / sign in
-Go to [dash.cloudflare.com](https://dash.cloudflare.com) and sign in (or sign up — free, no card required).
+### 1. Sign in
+Go to [dash.cloudflare.com](https://dash.cloudflare.com) (free account, no card).
 
 ### 2. Create the KV namespace
-This stores your site content and admin credentials.
-
 1. Left sidebar → **Storage & Databases** → **KV**
-2. Click **Create a namespace**
-3. Name it `zekiel-content` → **Add**
-4. You'll see a Namespace ID — you don't need to copy it, Cloudflare will link it later
+2. **Create a namespace** → name: `zekiel-content` → **Add**
 
 ### 3. Create the R2 bucket
-This stores your uploaded images.
-
-1. Left sidebar → **R2** → **Overview**
-2. First time? Agree to the R2 terms (no card required for free tier)
-3. Click **Create bucket**
-4. Name it `zekiel-apparel-uploads`
-5. Location: **Automatic**
-6. Click **Create bucket**
+1. Left sidebar → **R2 Object Storage** → **Overview**
+2. First time? Agree to R2 terms (no card for free tier)
+3. **Create bucket** → name: `zekiel-apparel-uploads` → Location: Automatic → **Create**
 
 ---
 
-## Part 2 — Deploy the site (5 min)
+## Part 2 — Create the Worker project (5 min)
 
-### 4. Create the Pages project
-1. Left sidebar → **Workers & Pages** → **Create**
-2. Click the **Pages** tab → **Connect to Git**
-3. Click **GitHub** → authorize Cloudflare → select your **ZekielApparel** repo
-4. Click **Begin setup**
+### 4. Start project setup
+1. Dashboard → **Workers & Pages** → **Create**
+2. Click **Import a repository** (or **Connect to Git** — same thing in newer UIs)
+3. Choose **GitHub** → authorize → pick **ZekielApparel**
+4. **Begin setup**
 
-### 5. Configure the build
-- **Project name:** `zekiel-apparel` (this becomes part of your URL)
-- **Production branch:** `main`
-- **Framework preset:** None
-- **Build command:** (leave empty)
-- **Build output directory:** `/` (or leave empty)
-- Click **Save and Deploy**
+### 5. Configure
+On the "Set up your application" page:
 
-Wait ~1 minute for the first deploy.
+| Field | Value |
+|---|---|
+| Project name | `zekiel-apparel` |
+| Build command | *(leave empty)* |
+| Deploy command | `npx wrangler deploy` |
+| Non-production branch deploy command | *(leave empty)* |
+| Path | `/` |
+| API token | Create a new one → give it the `Edit Cloudflare Workers` template and **add** the `Cloudflare Pages → Edit` permission |
 
-### 6. Attach the KV namespace and R2 bucket to the project
+Click **Create and deploy**. First deploy will take ~1 minute.
 
-After the first deploy finishes, go to your Pages project → **Settings** → **Bindings**.
+### 6. Attach KV and R2 bindings
+After first deploy → click into **zekiel-apparel** → **Settings** → **Bindings** → **Add**:
 
-**Add a KV namespace binding:**
-- Click **Add** → **KV namespace**
-- **Variable name:** `ZEKIEL_KV` (this exact name — the code looks for it)
-- **KV namespace:** select `zekiel-content`
-- Click **Save**
+| Binding | Type | Variable name | Resource |
+|---|---|---|---|
+| 1 | KV namespace | `ZEKIEL_KV` | `zekiel-content` |
+| 2 | R2 bucket | `ZEKIEL_R2` | `zekiel-apparel-uploads` |
 
-**Add an R2 bucket binding:**
-- Click **Add** → **R2 bucket**
-- **Variable name:** `ZEKIEL_R2` (this exact name)
-- **R2 bucket:** select `zekiel-apparel-uploads`
-- Click **Save**
+⚠️ Variable names must match exactly — the code reads `env.ZEKIEL_KV` and `env.ZEKIEL_R2`.
 
-### 7. Set the environment variables
-
-Still in **Settings** → **Variables and Secrets**, click **Add**:
+### 7. Add environment variables
+Still in **Settings** → **Variables and Secrets** → **Add**:
 
 | Variable | Type | Value |
 |---|---|---|
 | `ADMIN_EMAIL` | Plaintext | `zekielapparel@gmail.com` |
-| `ADMIN_PASSWORD` | **Secret** | a strong password (min 12 chars) — you'll use this to log in |
+| `ADMIN_PASSWORD` | **Secret** | a strong password (min 12 chars) |
 | `JWT_SECRET` | **Secret** | any long random string (32+ chars of nonsense) |
 
-Choose **Secret** for `ADMIN_PASSWORD` and `JWT_SECRET` so they're encrypted and hidden.
-
-### 8. Redeploy so the bindings take effect
-1. Go to **Deployments** tab
-2. Click the **⋯** menu on the latest deployment → **Retry deployment**
-3. Wait ~1 minute
+### 8. Redeploy to pick up bindings
+Deployments → **⋯** on latest → **Retry deployment** → wait ~1 min.
 
 ---
 
-## Part 3 — Test it (2 min)
+## Part 3 — Test (2 min)
 
-Your URL is shown at the top of the project page, something like:
+Your URL is at the top of the project page, something like:
 ```
-https://zekiel-apparel.pages.dev
+https://zekiel-apparel.<your-subdomain>.workers.dev
 ```
 
-### 9. Test the public site
-Open your URL — the homepage should load.
+### 9. Public site
+Open your URL — the homepage should load with all your content.
 
-### 10. Test the admin panel
-Go to `https://zekiel-apparel.pages.dev/admin/`
+### 10. Admin panel
+Go to `https://your-url/admin/` → log in:
+- Email: `zekielapparel@gmail.com`
+- Password: the `ADMIN_PASSWORD` you set in step 7
 
-Log in with:
-- **Email:** `zekielapparel@gmail.com`
-- **Password:** the `ADMIN_PASSWORD` you set in step 7
+Once logged in, open the **Account** tab and change your password.
 
-Once in, go to the **Account** tab and change your password.
-
-### 11. Test an image upload
-1. Go to the **Gallery** tab in the admin
-2. Click any item → upload a photo → **Save All Changes**
+### 11. Test an upload
+1. Go to **Gallery** in the admin
+2. Click any tile → upload a photo → **Save All Changes**
 3. Refresh your public site — the photo should appear
 
 ---
 
-## Your URLs
+## Project structure
 
-| What | URL |
-|---|---|
-| 🌐 Public site | `https://zekiel-apparel.pages.dev` |
-| 🔐 Admin panel | `https://zekiel-apparel.pages.dev/admin/` |
-| ⚙️ API | `https://zekiel-apparel.pages.dev/api/content` |
-
----
-
-## What the admin panel can do
-
-- **Business Info** — address, phones, email, hours, social links, bank details
-- **Hero / Home** — banner text and CTA buttons
-- **About & Story** — story paragraphs, stats
-- **Core Values** — add / remove / reorder
-- **Team** — members with photo upload and bios
-- **Services & Prices** — manage services, set prices, flag featured ones
-- **Gallery** — upload photos, categorise, organise
-- **Testimonials** — client reviews with star ratings
-- **Discounts** — promo codes with active/inactive toggle (shows as a site-wide banner)
-- **FAQ** — add/remove questions on the services page
-- **Account** — change admin password
-
-Every save is instant — the public site updates in real time.
+```
+ZekielApparel/
+├── public/                 # Static assets (served automatically)
+│   ├── index.html, about.html, etc.
+│   ├── admin/              # Admin SPA
+│   ├── css/, js/, images/
+│   └── _headers
+├── src/
+│   ├── index.js            # Worker entry (Hono app)
+│   └── seed.js             # Default content for first run
+├── wrangler.jsonc          # Worker config
+├── package.json            # Dependencies (Hono, JWT)
+└── DEPLOY.md
+```
 
 ---
 
-## Custom domain (optional)
+## Custom domain
 
-In the Pages project → **Custom domains** → **Set up a custom domain** → enter `zekielapparel.com` (or whichever you own). Cloudflare handles the DNS + SSL automatically.
+Workers & Pages → project → **Settings** → **Domains & Routes** → **Add** → enter your domain. Cloudflare handles DNS + SSL.
 
 ---
 
-## Free tier limits — plenty of headroom for a small business
+## Free-tier limits
 
-- **Pages:** unlimited requests, unlimited bandwidth
-- **Pages Functions:** 100,000 requests/day
-- **KV:** 100,000 reads/day, 1,000 writes/day, 1 GB storage
-- **R2:** 10 GB storage, zero egress fees (image bandwidth is free!)
+- **Workers requests:** 100,000 per day
+- **KV:** 100,000 reads, 1,000 writes, 1 GB storage per day
+- **R2:** 10 GB storage, zero egress fees
 
-If you ever outgrow the free tier, Workers Paid is $5/month with much higher limits.
+Enough headroom for a small fashion business. Workers Paid ($5/month) gives you millions of requests if you ever outgrow the free tier.

@@ -1,17 +1,23 @@
 /**
- * Zekiel Apparel — Cloudflare Pages Functions API
- * Routes mounted at /api/*
- * Bindings expected: ZEKIEL_KV (KV namespace), ZEKIEL_R2 (R2 bucket)
- * Env vars expected: JWT_SECRET, ADMIN_EMAIL, ADMIN_PASSWORD (for first-run seed)
+ * Zekiel Apparel — Cloudflare Worker with Static Assets
+ *
+ * - Static files (HTML, CSS, JS, images, admin SPA) served automatically
+ *   by the [assets] binding from the /public folder.
+ * - This Worker handles only /api/* (backend) and /uploads/* (R2 images).
+ *
+ * Expected bindings:
+ *   ZEKIEL_KV — KV namespace (content + admin user)
+ *   ZEKIEL_R2 — R2 bucket (uploaded images)
+ * Expected env vars:
+ *   JWT_SECRET (secret), ADMIN_EMAIL, ADMIN_PASSWORD (secret, only for first run)
  */
 
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { handle } from 'hono/cloudflare-pages';
 import jwt from '@tsndr/cloudflare-worker-jwt';
-import seedContent from './_seed.js';
+import seedContent from './seed.js';
 
-const app = new Hono().basePath('/api');
+const app = new Hono();
 app.use('*', cors());
 
 /* ── Crypto helpers (Web Crypto, no deps) ─────── */
@@ -42,7 +48,6 @@ async function verifyPassword(password, stored) {
   if (!stored || !stored.includes(':')) return false;
   const [salt] = stored.split(':');
   const recomputed = await hashPassword(password, salt);
-  // Timing-safe compare
   if (recomputed.length !== stored.length) return false;
   let diff = 0;
   for (let i = 0; i < recomputed.length; i++) {
@@ -88,12 +93,13 @@ function unauthorized(c) {
   return c.json({ error: 'Missing or invalid token' }, 401);
 }
 
-/* ── Routes ───────────────────────────────────── */
+/* ── API: Health ──────────────────────────────── */
 
-app.get('/health', (c) => c.json({ ok: true, time: new Date().toISOString() }));
+app.get('/api/health', (c) => c.json({ ok: true, time: new Date().toISOString() }));
 
-// Login
-app.post('/auth/login', async (c) => {
+/* ── API: Auth ────────────────────────────────── */
+
+app.post('/api/auth/login', async (c) => {
   await ensureSeeded(c.env);
   let body;
   try { body = await c.req.json(); } catch { return c.json({ error: 'Bad request' }, 400); }
@@ -113,8 +119,7 @@ app.post('/auth/login', async (c) => {
   return c.json({ token, email: user.email });
 });
 
-// Change password
-app.post('/auth/change-password', async (c) => {
+app.post('/api/auth/change-password', async (c) => {
   const auth = await requireAuth(c);
   if (!auth) return unauthorized(c);
   let body;
@@ -132,15 +137,15 @@ app.post('/auth/change-password', async (c) => {
   return c.json({ ok: true });
 });
 
-// Get content (public)
-app.get('/content', async (c) => {
+/* ── API: Content ─────────────────────────────── */
+
+app.get('/api/content', async (c) => {
   await ensureSeeded(c.env);
   const str = await c.env.ZEKIEL_KV.get('content');
   return c.json(str ? JSON.parse(str) : {});
 });
 
-// Update entire content (admin)
-app.put('/content', async (c) => {
+app.put('/api/content', async (c) => {
   const auth = await requireAuth(c);
   if (!auth) return unauthorized(c);
   let body;
@@ -150,8 +155,7 @@ app.put('/content', async (c) => {
   return c.json({ ok: true });
 });
 
-// Update one section (admin)
-app.patch('/content/:section', async (c) => {
+app.patch('/api/content/:section', async (c) => {
   const auth = await requireAuth(c);
   if (!auth) return unauthorized(c);
   const section = c.req.param('section');
@@ -162,8 +166,9 @@ app.patch('/content/:section', async (c) => {
   return c.json({ ok: true });
 });
 
-// Upload image (admin)
-app.post('/upload', async (c) => {
+/* ── API: Uploads (admin management) ──────────── */
+
+app.post('/api/upload', async (c) => {
   const auth = await requireAuth(c);
   if (!auth) return unauthorized(c);
   const formData = await c.req.formData();
@@ -179,16 +184,14 @@ app.post('/upload', async (c) => {
   return c.json({ url: `/uploads/${key}`, filename: key });
 });
 
-// Delete uploaded image (admin)
-app.delete('/upload/:filename', async (c) => {
+app.delete('/api/upload/:filename', async (c) => {
   const auth = await requireAuth(c);
   if (!auth) return unauthorized(c);
   await c.env.ZEKIEL_R2.delete(c.req.param('filename'));
   return c.json({ ok: true });
 });
 
-// List uploaded images (admin)
-app.get('/uploads', async (c) => {
+app.get('/api/uploads', async (c) => {
   const auth = await requireAuth(c);
   if (!auth) return unauthorized(c);
   const listed = await c.env.ZEKIEL_R2.list({ limit: 1000 });
@@ -196,7 +199,20 @@ app.get('/uploads', async (c) => {
   return c.json({ items });
 });
 
-// 404 for any other /api path
-app.all('*', (c) => c.json({ error: 'Not found' }, 404));
+/* ── Public: serve uploaded images from R2 ────── */
 
-export const onRequest = handle(app);
+app.get('/uploads/:key', async (c) => {
+  const obj = await c.env.ZEKIEL_R2.get(c.req.param('key'));
+  if (!obj) return new Response('Not found', { status: 404 });
+  const headers = new Headers();
+  obj.writeHttpMetadata(headers);
+  headers.set('etag', obj.httpEtag);
+  headers.set('cache-control', 'public, max-age=86400');
+  return new Response(obj.body, { headers });
+});
+
+/* ── 404 for unhandled /api/* paths ───────────── */
+
+app.all('/api/*', (c) => c.json({ error: 'Not found' }, 404));
+
+export default app;

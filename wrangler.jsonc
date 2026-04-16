@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zekiel-apparel",
+  "main": "src/index.js",
+  "compatibility_date": "2024-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+
+  // Bindings and secrets (KV, R2, ADMIN_*, JWT_SECRET) are set in the
+  // Cloudflare dashboard → Workers & Pages → zekiel-apparel → Settings.
+  // The code looks for:
+  //   - KV namespace binding:  ZEKIEL_KV
+  //   - R2 bucket binding:     ZEKIEL_R2
+  //   - Plaintext vars:        ADMIN_EMAIL
+  //   - Secret vars:           ADMIN_PASSWORD, JWT_SECRET
+}
