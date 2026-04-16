@@ -16,11 +16,3 @@ services:
         value: zekielapparel@gmail.com
       - key: ADMIN_PASSWORD
         sync: false
-      - key: DATA_DIR
-        value: /var/data
-      - key: UPLOADS_DIR
-        value: /var/data/uploads
-    disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1
