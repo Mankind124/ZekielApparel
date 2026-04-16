@@ -1227,6 +1227,38 @@ input, select, textarea { font-family: var(--font-body); }
 }
 
 /* =========================================
+   DYNAMIC IMAGE SUPPORT
+   ========================================= */
+/* Gallery items with real photos */
+.gallery-placeholder.has-img { background: var(--dark); }
+.gallery-placeholder.has-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.gallery-item:hover .gallery-placeholder.has-img img { transform: scale(1.05); }
+
+/* Team photos with real images */
+.team-photo.has-img { background: none; padding: 0; overflow: hidden; }
+.team-photo.has-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+.team-photo.has-img::after { display: none; }
+
+/* Loading spinner */
+.gallery-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-light);
+  font-size: 1.5rem;
+}
+
+/* =========================================
    INNER PAGE BANNER
    ========================================= */
 .page-banner {

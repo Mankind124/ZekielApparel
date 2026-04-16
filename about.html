@@ -188,25 +188,9 @@
         <h2 class="section-title">Meet Our Team</h2>
         <p class="section-sub">A passionate group of designers, tailors, and stylists dedicated to making you look and feel extraordinary.</p>
       </div>
-      <div class="team-grid">
-        <div class="team-card">
-          <div class="team-photo"><i class="fa fa-user"></i></div>
-          <div class="team-name">Johnson Bidemi Makinde</div>
-          <div class="team-role">Founder</div>
-          <p class="team-bio">With a passion for fashion and a vision for elegance, Johnson founded Zekiel Apparel to celebrate individuality through bespoke design and expert craftsmanship.</p>
-        </div>
-        <div class="team-card">
-          <div class="team-photo"><i class="fa fa-user"></i></div>
-          <div class="team-name">Sunday Samson Oretuyi</div>
-          <div class="team-role">Pattern Maker & Head Tailor</div>
-          <p class="team-bio">Sunday's mastery of pattern-making and construction is the backbone of our quality. His eye for detail ensures every garment fits like a second skin.</p>
-        </div>
-        <div class="team-card">
-          <div class="team-photo"><i class="fa fa-user"></i></div>
-          <div class="team-name">Mr Elijah</div>
-          <div class="team-role">Style Consultant & Client Relations</div>
-          <p class="team-bio">Mr Elijah guides clients through their style journey with warmth and expertise, turning visions into wearable reality from the very first consultation.</p>
-        </div>
+      <!-- Team renders dynamically from data/team.json -->
+      <div class="team-grid" id="teamGrid">
+        <div class="gallery-loading"><i class="fa fa-circle-notch fa-spin"></i></div>
       </div>
     </div>
   </section>
@@ -283,5 +267,33 @@
 
   <button id="backToTop" class="back-to-top" aria-label="Back to top"><i class="fa fa-chevron-up"></i></button>
   <script src="js/script.js"></script>
+  <script>
+    /* ---- Dynamic Team Loader ---- */
+    fetch('/data/team.json')
+      .then(r => r.json())
+      .then(data => {
+        const grid   = document.getElementById('teamGrid');
+        const members = data.members || [];
+        grid.innerHTML = members.map(m => {
+          const hasPhoto = m.photo && m.photo.trim() !== '';
+          const initial  = m.name.charAt(0).toUpperCase();
+          return `
+            <div class="team-card">
+              <div class="team-photo ${hasPhoto ? 'has-img' : ''}">
+                ${hasPhoto
+                  ? `<img src="${m.photo}" alt="${m.name}" loading="lazy" />`
+                  : `<i class="fa fa-user"></i>`}
+              </div>
+              <div class="team-name">${m.name}</div>
+              <div class="team-role">${m.role}</div>
+              <p class="team-bio">${m.bio}</p>
+            </div>`;
+        }).join('');
+      })
+      .catch(() => {
+        document.getElementById('teamGrid').innerHTML =
+          '<p style="color:var(--text-light)">Team info coming soon.</p>';
+      });
+  </script>
 </body>
 </html>

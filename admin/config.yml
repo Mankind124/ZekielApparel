@@ -1,0 +1,90 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/gallery"
+public_folder: "/images/gallery"
+
+locale: "en"
+
+collections:
+
+  # ── GALLERY ──────────────────────────────────────────────
+  - label: "Gallery"
+    name: "gallery"
+    files:
+      - label: "Gallery Photos"
+        name: "gallery_photos"
+        file: "data/gallery.json"
+        fields:
+          - label: "Photos"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}} · {{fields.category}}"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+                hint: "e.g. Bridal Gown 2024"
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options:
+                  - { label: "Bridal", value: "bridal" }
+                  - { label: "Casual", value: "casual" }
+                  - { label: "Corporate", value: "corporate" }
+                  - { label: "Occasion", value: "occasion" }
+                  - { label: "Traditional", value: "traditional" }
+              - label: "Photo"
+                name: "image"
+                widget: "image"
+                hint: "Upload the photo for this gallery item"
+              - label: "Description"
+                name: "description"
+                widget: "string"
+                required: false
+                hint: "Short caption (optional)"
+
+  # ── TEAM ─────────────────────────────────────────────────
+  - label: "Team Members"
+    name: "team"
+    files:
+      - label: "Team"
+        name: "team_members"
+        file: "data/team.json"
+        fields:
+          - label: "Members"
+            name: "members"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.role}}"
+            fields:
+              - { label: "Full Name", name: "name", widget: "string" }
+              - { label: "Role / Title", name: "role", widget: "string" }
+              - label: "Bio"
+                name: "bio"
+                widget: "text"
+              - label: "Photo"
+                name: "photo"
+                widget: "image"
+                required: false
+                media_folder: "/images/team"
+                public_folder: "/images/team"
+                hint: "Upload a profile photo (optional)"
+
+  # ── SITE SETTINGS ─────────────────────────────────────────
+  - label: "Site Settings"
+    name: "settings"
+    files:
+      - label: "Contact & Business Info"
+        name: "contact"
+        file: "data/settings.json"
+        fields:
+          - { label: "Address", name: "address", widget: "string" }
+          - { label: "Phone 1", name: "phone1", widget: "string" }
+          - { label: "Phone 2", name: "phone2", widget: "string", required: false }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Weekday Hours (Mon–Fri)", name: "weekday_hours", widget: "string" }
+          - { label: "Saturday Hours", name: "saturday_hours", widget: "string" }
+          - { label: "Instagram URL", name: "instagram", widget: "string", required: false }
+          - { label: "Facebook URL", name: "facebook", widget: "string", required: false }
+          - { label: "WhatsApp Number", name: "whatsapp", widget: "string", required: false }

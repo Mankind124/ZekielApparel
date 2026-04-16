@@ -79,69 +79,11 @@
         <button class="filter-btn" data-filter="traditional">Traditional</button>
       </div>
 
+      <!-- Gallery renders dynamically from data/gallery.json -->
       <div class="gallery-grid-full" id="galleryGrid">
-
-        <div class="gallery-item large" data-category="bridal">
-          <div class="gallery-placeholder g1">
-            <div class="gallery-overlay"><span>Bridal Gown — 2024</span><i class="fa fa-search-plus"></i></div>
-          </div>
+        <div class="gallery-loading">
+          <i class="fa fa-circle-notch fa-spin"></i> Loading gallery…
         </div>
-        <div class="gallery-item" data-category="corporate">
-          <div class="gallery-placeholder g3">
-            <div class="gallery-overlay"><span>Executive Suit</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item" data-category="occasion">
-          <div class="gallery-placeholder g2">
-            <div class="gallery-overlay"><span>Evening Gown</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item" data-category="casual">
-          <div class="gallery-placeholder g4">
-            <div class="gallery-overlay"><span>Summer Collection</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item wide" data-category="traditional">
-          <div class="gallery-placeholder g5">
-            <div class="gallery-overlay"><span>Traditional Ceremony</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item" data-category="bridal">
-          <div class="gallery-placeholder g6">
-            <div class="gallery-overlay"><span>Bridesmaid Collection</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item large" data-category="occasion">
-          <div class="gallery-placeholder g2">
-            <div class="gallery-overlay"><span>Gala Night Outfit</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item" data-category="corporate">
-          <div class="gallery-placeholder g3">
-            <div class="gallery-overlay"><span>Corporate Set</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item" data-category="casual">
-          <div class="gallery-placeholder g4">
-            <div class="gallery-overlay"><span>Casual Chic</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item" data-category="traditional">
-          <div class="gallery-placeholder g1">
-            <div class="gallery-overlay"><span>Aso-Ebi Look</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item wide" data-category="bridal">
-          <div class="gallery-placeholder g5">
-            <div class="gallery-overlay"><span>Bridal Party — Full Set</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-        <div class="gallery-item" data-category="casual">
-          <div class="gallery-placeholder g6">
-            <div class="gallery-overlay"><span>Weekend Wear</span><i class="fa fa-search-plus"></i></div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -218,5 +160,62 @@
 
   <button id="backToTop" class="back-to-top" aria-label="Back to top"><i class="fa fa-chevron-up"></i></button>
   <script src="js/script.js"></script>
+  <script>
+    /* ---- Dynamic Gallery Loader ---- */
+    const placeholderClasses = ['g1','g2','g3','g4','g5','g6'];
+    const layoutPattern = ['large','','','wide','','large','','','wide','','',''];
+
+    fetch('/data/gallery.json')
+      .then(r => r.json())
+      .then(data => {
+        const grid = document.getElementById('galleryGrid');
+        const items = data.items || [];
+        if (!items.length) { grid.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:40px 0">No gallery items yet. Add some in the admin panel.</p>'; return; }
+        grid.innerHTML = items.map((item, i) => {
+          const hasImg  = item.image && item.image.trim() !== '';
+          const cls     = placeholderClasses[i % placeholderClasses.length];
+          const layout  = layoutPattern[i % layoutPattern.length];
+          const inner   = hasImg
+            ? `<img src="${item.image}" alt="${item.title}" loading="lazy" />`
+            : '';
+          return `
+            <div class="gallery-item ${layout}" data-category="${item.category}">
+              <div class="gallery-placeholder ${hasImg ? 'has-img' : cls}">
+                ${inner}
+                <div class="gallery-overlay">
+                  <span>${item.title}</span>
+                  <i class="fa fa-search-plus"></i>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+
+        /* Re-attach filter logic after dynamic render */
+        const filterBtns  = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            galleryItems.forEach(item => {
+              const show = filter === 'all' || item.dataset.category === filter;
+              if (show) {
+                item.style.display = '';
+                requestAnimationFrame(() => { item.style.opacity='1'; item.style.transform='scale(1)'; });
+              } else {
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.95)';
+                setTimeout(() => { item.style.display = 'none'; }, 300);
+              }
+            });
+          });
+        });
+      })
+      .catch(() => {
+        document.getElementById('galleryGrid').innerHTML =
+          '<p style="text-align:center;color:var(--text-light);padding:40px 0">Gallery coming soon.</p>';
+      });
+  </script>
 </body>
 </html>

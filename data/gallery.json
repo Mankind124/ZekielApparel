@@ -1,0 +1,16 @@
+{
+  "items": [
+    { "title": "Bridal Gown 2024", "category": "bridal", "image": "", "description": "Bespoke bridal collection" },
+    { "title": "Evening Gown", "category": "occasion", "image": "", "description": "Elegant occasion wear" },
+    { "title": "Executive Suit", "category": "corporate", "image": "", "description": "Sharp corporate tailoring" },
+    { "title": "Summer Collection", "category": "casual", "image": "", "description": "Casual chic collection" },
+    { "title": "Traditional Ceremony", "category": "traditional", "image": "", "description": "Beautiful aso-ebi set" },
+    { "title": "Bridesmaid Collection", "category": "bridal", "image": "", "description": "Coordinated bridal party" },
+    { "title": "Gala Night Outfit", "category": "occasion", "image": "", "description": "Showstopping occasion wear" },
+    { "title": "Corporate Set", "category": "corporate", "image": "", "description": "Professional corporate attire" },
+    { "title": "Casual Chic", "category": "casual", "image": "", "description": "Everyday fashion" },
+    { "title": "Aso-Ebi Look", "category": "traditional", "image": "", "description": "Vibrant traditional wear" },
+    { "title": "Bridal Party — Full Set", "category": "bridal", "image": "", "description": "Complete wedding party" },
+    { "title": "Weekend Wear", "category": "casual", "image": "", "description": "Stylish weekend collection" }
+  ]
+}

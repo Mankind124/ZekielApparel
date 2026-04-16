@@ -1,0 +1,22 @@
+{
+  "members": [
+    {
+      "name": "Johnson Bidemi Makinde",
+      "role": "Founder",
+      "bio": "With a passion for fashion and a vision for elegance, Johnson founded Zekiel Apparel to celebrate individuality through bespoke design and expert craftsmanship.",
+      "photo": ""
+    },
+    {
+      "name": "Sunday Samson Oretuyi",
+      "role": "Pattern Maker & Head Tailor",
+      "bio": "Sunday's mastery of pattern-making and construction is the backbone of our quality. His eye for detail ensures every garment fits like a second skin.",
+      "photo": ""
+    },
+    {
+      "name": "Mr Elijah",
+      "role": "Style Consultant & Client Relations",
+      "bio": "Mr Elijah guides clients through their style journey with warmth and expertise, turning visions into wearable reality from the very first consultation.",
+      "photo": ""
+    }
+  ]
+}
